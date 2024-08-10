@@ -1,9 +1,6 @@
 
 package controlls;
 
-import com.ironsoftware.ironpdf.License;
-import com.ironsoftware.ironpdf.PdfDocument;
-import com.ironsoftware.ironpdf.Settings;
 import daoImpl.NguyenLieuDao;
 import daoImpl.HoaDonNhapImple;
 import daoImpl.CTHDNhapImple;
@@ -14,6 +11,7 @@ import entities.NguyenLieu;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -411,9 +409,6 @@ public class ApplianceController {
     }
     
     public static void inHoaDon(){
-        License.setLicenseKey("IRONSUITE.SONDQPS41027.GMAIL.COM.4975-A90B79BBB2-A7A64PLUNOQAEWFP-IE6YVLBAWBSL-NJMYNLOKSNL4-RGO5F57P4DGX-DU6EYU26LZKU-4GYJFRZI5BQ5-S7YUBZ-TLDTIUCDCOSNEA-DEPLOYMENT.TRIAL-UVFH6H.TRIAL.EXPIRES.20.AUG.2024");
-        // Set a log path
-        Settings.setLogPath(Paths.get("C:\\Users\\ndhl\\Documents"));
         String text = "";
         text += "<head>\n" +
 "        <style>\n" +
@@ -499,21 +494,25 @@ text += "                </tbody>\n" +
 "            </table>\n" +
 "        </div>\n" +
 "    </body>";
-        License.setLicenseKey("IRONSUITE.SONDQPS41027.GMAIL.COM.4975-A90B79BBB2-A7A64PLUNOQAEWFP-IE6YVLBAWBSL-NJMYNLOKSNL4-RGO5F57P4DGX-DU6EYU26LZKU-4GYJFRZI5BQ5-S7YUBZ-TLDTIUCDCOSNEA-DEPLOYMENT.TRIAL-UVFH6H.TRIAL.EXPIRES.20.AUG.2024");
-//        Settings.setLogPath(Paths.get("C:/tmp/IronPdfEngine.log"));
-        PdfDocument myPdf = PdfDocument.renderHtmlAsPdf(text);
-        MsgBox.inform(null, "In hóa đơn thành công.");
         try {
-            myPdf.saveAs(Paths.get(list.get(0).getSoHDN()+".pdf"));
-            File file = new File("receipts/imports/"+list.get(0).getSoHDN()+".pdf");
-            if (file.toString().endsWith(".pdf")) 
-            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
-        else {
-            Desktop desktop = Desktop.getDesktop();
-            desktop.open(file);
-        }
-        } catch (IOException ex) {
-            Logger.getLogger(CreateOrdersJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            // Tạo một file mới
+            FileWriter writer = new FileWriter("receipts/imports/"+list.get(0).getSoHDN()+".html");
+
+            // Viết nội dung HTML vào file
+            writer.write(text);
+
+            // Đóng file
+            writer.close();
+            String filePath = "receipts/imports/"+list.get(0).getSoHDN()+".html";
+            
+            // Tạo một đối tượng File từ đường dẫn
+            File file = new File(filePath);
+            
+            // Sử dụng lớp Desktop để mở file
+            Desktop.getDesktop().open(file);
+            MsgBox.inform(null, "In hóa đơn thành công");
+        } catch (IOException e) {
+            MsgBox.alert(null,"Đã xảy ra lỗi khi tạo hóa đơn: " + e.getMessage());
+        }        
     }
 }

@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 public final class XJdbc {
 
     public static final String username = "sa";
-    public static final String password = "Son15@2";
+    public static final String password = "kuroneko1215";
     private static final String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static Connection con = null;
 

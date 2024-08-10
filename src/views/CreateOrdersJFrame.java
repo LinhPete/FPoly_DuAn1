@@ -1,8 +1,5 @@
 package views;
 
-import com.ironsoftware.ironpdf.License;
-import com.ironsoftware.ironpdf.PdfDocument;
-import com.ironsoftware.ironpdf.Settings;
 import controller.BanHangController;
 import controlls.ProductController;
 import controlls.ReceiptController;
@@ -31,6 +28,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -685,23 +683,23 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void tblOderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblOderMouseClicked
-        if(evt.getClickCount() == 2){
+        if (evt.getClickCount() == 2) {
             this.chonSoLuong();
         }
     }//GEN-LAST:event_tblOderMouseClicked
 
     private void btnInHoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInHoaDonActionPerformed
-        if(mahdUD == null){
+        if (mahdUD == null) {
             this.inhoadon();
-        }else{
+        } else {
             this.updateBills(mahdUD);
         }
-        
+
     }//GEN-LAST:event_btnInHoaDonActionPerformed
 
     private void btnTaoKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaoKHActionPerformed
-        new SaveOderCustomerJDialog(this, true,txtSDT.getText()).setVisible(true);
-        if(SaveOderCustomerJDialog.makh != null)
+        new SaveOderCustomerJDialog(this, true, txtSDT.getText()).setVisible(true);
+        if (SaveOderCustomerJDialog.makh != null)
             this.fillCustomerByID(SaveOderCustomerJDialog.makh);
     }//GEN-LAST:event_btnTaoKHActionPerformed
 
@@ -742,7 +740,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
     }//GEN-LAST:event_formWindowClosing
 
     private void txtTienNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTienNhanActionPerformed
-        
+
     }//GEN-LAST:event_txtTienNhanActionPerformed
 
     private void txtSDTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSDTActionPerformed
@@ -750,7 +748,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
     }//GEN-LAST:event_txtSDTActionPerformed
 
     private void txtSDTKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSDTKeyPressed
-        
+
     }//GEN-LAST:event_txtSDTKeyPressed
 
     private void btnTimKiemKHActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemKHActionPerformed
@@ -770,7 +768,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
     }//GEN-LAST:event_txtDiscountActionPerformed
 
     private void txtTimKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemKeyReleased
-        
+
     }//GEN-LAST:event_txtTimKiemKeyReleased
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
@@ -859,7 +857,8 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
 
     private Double giaGoc = 0.0;
     private Double discountGoc = 0.0;
-    String mahdUD ;
+    String mahdUD;
+
     @Override
     public void initialize(String mahd) {
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -869,21 +868,21 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
         this.updateStatus(mahd);
         this.setForm(mahd);
         this.mahdUD = mahd;
-        
+
         TableActionEvent event = new TableActionEvent() {
             @Override
             public void onDetete(int row) {
-                if(tblOder.isEditing()){
+                if (tblOder.isEditing()) {
                     tblOder.getCellEditor().stopCellEditing();
                 }
                 DefaultTableModel model = (DefaultTableModel) tblOder.getModel();
-                if(row >= 0){
-                    updateNguyenLieu(model.getValueAt(row, 0)+"", - Integer.parseInt(model.getValueAt(row, 3)+""));
+                if (row >= 0) {
+                    updateNguyenLieu(model.getValueAt(row, 0) + "", -Integer.parseInt(model.getValueAt(row, 3) + ""));
                     model.removeRow(row);
                     resetBill();
                     updatePrice();
                 }
-                
+
             }
 
         };
@@ -927,7 +926,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
                 if (dem < size) {
                     SanPham sp = list.get(dem);
                     pnlProduct[i][j] = new jpanelrounded.PanelRound();
-                    pnlProduct[i][j].setSize(250,250);
+                    pnlProduct[i][j].setSize(250, 250);
                     pnlProduct[i][j].setLayout(new BorderLayout());
                     pnlProduct[i][j].setBackground(Color.decode("#FFEFD5"));
                     pnlProduct[i][j].setRoundButtomLeft(30);
@@ -942,7 +941,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
                     this.setImageProduct(sp.getHinh(), lblImg[i][j]);
                     pnlProduct[i][j].add(lblImg[i][j], BorderLayout.NORTH);
                     pnlProduct[i][j].add(this.createNameProduct(sp.getTenSP(), "#8B4513"), BorderLayout.CENTER);
-                    pnlProduct[i][j].add(this.createNameProduct(sp.getGiaTien()+ " vnđ", "#8B4513"), BorderLayout.SOUTH);
+                    pnlProduct[i][j].add(this.createNameProduct(sp.getGiaTien() + " vnđ", "#8B4513"), BorderLayout.SOUTH);
                     pnlMain.add(pnlProduct[i][j]);
                     pnlMain.scrollRectToVisible(new Rectangle(pnlMain.getSize()));
                 }
@@ -951,7 +950,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
     }
 
     @Override
-    public void clearAll(){
+    public void clearAll() {
         DefaultTableModel model = (DefaultTableModel) tblOder.getModel();
         model.setRowCount(0);
         this.giaGoc = 0.0;
@@ -988,6 +987,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
 
     HoaDonImple hdndao = new HoaDonImple();
     String maHD;
+
     @Override
     public void inhoadon() {
         try {
@@ -1002,7 +1002,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
                 hd.setTongTien(Double.parseDouble(txtPrice.getText()) + Double.parseDouble(txtGiamGia.getText()));
                 hd.setGiamGia(Double.valueOf(txtGiamGia.getText()));
                 hd.setTriGia(Double.valueOf(txtPrice.getText()));
-                hd.setTrangThai(cboTrangThai.getSelectedItem()+"");
+                hd.setTrangThai(cboTrangThai.getSelectedItem() + "");
                 hdndao.insertHoaDon(hd);
                 this.insertCTHD(maHD);
                 this.clearAll();
@@ -1065,7 +1065,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
                             int count = 0;
                             String sl = MsgBox.prompt(null, "Nhập số lượng :");
                             if (Validate.positiveInt(sl) && Integer.parseInt(sl) != 0) {
-                                if(checkMaxCount(masp) <= 0){
+                                if (checkMaxCount(masp) <= 0) {
                                     MsgBox.inform(null, "Nguyên liệu không còn đủ ");
                                     return;
                                 }
@@ -1081,7 +1081,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
                                         sp.getTenSP(),
                                         sp.getGiaTien(),
                                         count,
-                                        sp.getGiaTien()* count
+                                        sp.getGiaTien() * count
                                     };
                                     updateNguyenLieu(masp, count);
                                     model.addRow(row);
@@ -1109,7 +1109,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
                                     resetBill();
                                     updatePrice();
                                 }
-                            }else{
+                            } else {
                                 MsgBox.inform(null, "Sai định dạng số lượng !!");
                             }
                         }
@@ -1118,24 +1118,22 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
             }
         }
     }
-    
-    
-    private void setToolTipText(JLabel label){
-        label.setToolTipText("<html>\n" +
-                                    "    <div style=\"background-color: antiquewhite; font-size: 10px; \n" +
-                                    "        font-weight: bold; width: 80px; height: 40px; text-align: center; \n" +
-                                    "        padding: 3px;border-radius: 60px;\">\n" +
-                                    "        <p>TÌNH TRẠNG</p>\n" +
-                                    "        <p style=\"font-style: italic; color: rgb(237, 80, 132);   \">Còn hàng</p>\n" +
-                                    "    </div>\n" +
-                                    "</html>");
+
+    private void setToolTipText(JLabel label) {
+        label.setToolTipText("<html>\n"
+                + "    <div style=\"background-color: antiquewhite; font-size: 10px; \n"
+                + "        font-weight: bold; width: 80px; height: 40px; text-align: center; \n"
+                + "        padding: 3px;border-radius: 60px;\">\n"
+                + "        <p>TÌNH TRẠNG</p>\n"
+                + "        <p style=\"font-style: italic; color: rgb(237, 80, 132);   \">Còn hàng</p>\n"
+                + "    </div>\n"
+                + "</html>");
     }
-    
-    
-    private int checkCountTable(String maSP){
+
+    private int checkCountTable(String maSP) {
         DefaultTableModel model = (DefaultTableModel) tblOder.getModel();
-        for(int i=0 ; i<tblOder.getRowCount() ; i++){
-            if(maSP.equals(model.getValueAt(i, 0))){
+        for (int i = 0; i < tblOder.getRowCount(); i++) {
+            if (maSP.equals(model.getValueAt(i, 0))) {
                 return i;
             }
         }
@@ -1202,9 +1200,6 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
 
     @Override
     public void xuatBillKhachHang() {
-        License.setLicenseKey("IRONSUITE.SONDQPS41027.GMAIL.COM.4975-A90B79BBB2-A7A64PLUNOQAEWFP-IE6YVLBAWBSL-NJMYNLOKSNL4-RGO5F57P4DGX-DU6EYU26LZKU-4GYJFRZI5BQ5-S7YUBZ-TLDTIUCDCOSNEA-DEPLOYMENT.TRIAL-UVFH6H.TRIAL.EXPIRES.20.AUG.2024");
-        // Set a log path
-        Settings.setLogPath(Paths.get("C:\\Users\\ndhl\\Documents"));
         String head
                 = "<head>\n"
                 + "    <style>\n"
@@ -1299,31 +1294,36 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
                 + "                    <th>" + txtPrice.getText() + "</th>\n"
                 + "                </tr>\n"
                 + "        </table>\n"
-                +"<p style=\"text-align: right; margin-right: 50px; font-weight: bolder;\">"+cboTrangThai.getSelectedItem()+"</p>"
+                + "<p style=\"text-align: right; margin-right: 50px; font-weight: bolder;\">" + cboTrangThai.getSelectedItem() + "</p>"
                 + "        <p>CẢM ƠN QUÝ KHÁCH</p>\n"
                 + "        <P>Đã đồng hàng cùng cửa hàng của chúng tôi</P>\n"
                 + "    </div>\n"
                 + "</body>";
-        License.setLicenseKey("IRONSUITE.SONDQPS41027.GMAIL.COM.4975-A90B79BBB2-A7A64PLUNOQAEWFP-IE6YVLBAWBSL-NJMYNLOKSNL4-RGO5F57P4DGX-DU6EYU26LZKU-4GYJFRZI5BQ5-S7YUBZ-TLDTIUCDCOSNEA-DEPLOYMENT.TRIAL-UVFH6H.TRIAL.EXPIRES.20.AUG.2024");
-        Settings.setLogPath(Paths.get("C:/tmp/IronPdfEngine.log"));
-        PdfDocument myPdf = PdfDocument.renderHtmlAsPdf(head + body);
+
         try {
-            myPdf.saveAs(Paths.get(maHD+".pdf"));
-            File file = new File("receipts/sales/"+maHD+".pdf");
-            if (file.toString().endsWith(".pdf")) 
-            Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
-        else {
-            Desktop desktop = Desktop.getDesktop();
-            desktop.open(file);
-        }
-        } catch (IOException ex) {
-            Logger.getLogger(CreateOrdersJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        MsgBox.inform(null, "In hóa đơn thành công");
+            // Tạo một file mới
+            FileWriter writer = new FileWriter("receipts/sales/"+maHD+".html");
+
+            // Viết nội dung HTML vào file
+            writer.write(head+body);
+
+            // Đóng file
+            writer.close();
+            MsgBox.inform(null, "In hóa đơn thành công");
+            String filePath = "receipts/sales/"+maHD+".html";
+            
+            // Tạo một đối tượng File từ đường dẫn
+            File file = new File(filePath);
+            
+            // Sử dụng lớp Desktop để mở file
+            Desktop.getDesktop().open(file);
+        } catch (IOException e) {
+            MsgBox.alert(this,"Đã xảy ra lỗi khi tạo file: " + e.getMessage());
+        }        
     }
-    
+
     @Override
-    public void openBill(Path path){
+    public void openBill(Path path) {
     }
 
     ChiTietSanPhamImple ctspdao = new ChiTietSanPhamImple();
@@ -1339,22 +1339,22 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
             };
             try {
                 nldao.updateTKNguyenLieu(values);
-            } catch(Exception e) {
-            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
-        }
+            } catch (Exception e) {
+                MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+            }
         }
     }
-    
-    public void updateGiaTienNL(){
+
+    public void updateGiaTienNL() {
         Double giaTien = 0.0;
         DefaultTableModel model = (DefaultTableModel) tblOder.getModel();
-        for(int i=0 ; i<model.getRowCount() ; i++){
-            String masp = model.getValueAt(i, 0)+"";
-            int soLuong = Integer.parseInt(model.getValueAt(i, 3)+"");
-            List <ChiTietSanPham> list = ctspdao.selectAllNguyenLieu(masp);
-            for(ChiTietSanPham ctsp: list){
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String masp = model.getValueAt(i, 0) + "";
+            int soLuong = Integer.parseInt(model.getValueAt(i, 3) + "");
+            List<ChiTietSanPham> list = ctspdao.selectAllNguyenLieu(masp);
+            for (ChiTietSanPham ctsp : list) {
                 giaTien = ctsp.getGiaVon();
-                nldao.updateGiaTien(giaTien*soLuong, ctsp.getMaNL());
+                nldao.updateGiaTien(giaTien * soLuong, ctsp.getMaNL());
             }
         }
     }
@@ -1373,30 +1373,30 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
         }
         return maxCount;
     }
-    
-    
-    public boolean checkNguyenLieuSanPham(String maSP ,int count) {
+
+    public boolean checkNguyenLieuSanPham(String maSP, int count) {
         int maxCount = this.checkMaxCount(maSP);
-        if(maxCount >= count){
+        if (maxCount >= count) {
             return true;
-        }else{
+        } else {
             MsgBox.alert(this, "Nguyên chỉ còn đủ cho " + maxCount + " Sản Phẩm.");
             return false;
         }
     }
 
-    public boolean checkMaSP(String maSP){
+    public boolean checkMaSP(String maSP) {
         DefaultTableModel model = (DefaultTableModel) tblOder.getModel();
-        for(int i=0 ; i<model.getRowCount() ; i++){
-            String masp = model.getValueAt(i, 0)+"";
-            if(masp.equals(maSP)){
+        for (int i = 0; i < model.getRowCount(); i++) {
+            String masp = model.getValueAt(i, 0) + "";
+            if (masp.equals(maSP)) {
                 return true;
             }
         }
         return false;
     }
+
     public void chonSoLuong() {
-        
+
         DefaultTableModel model = (DefaultTableModel) tblOder.getModel();
         String maSP = model.getValueAt(tblOder.getSelectedRow(), 0) + "";
         int soLuongCu = Integer.parseInt(model.getValueAt(tblOder.getSelectedRow(), 3) + "");
@@ -1405,7 +1405,7 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
         if (Validate.positiveInt(sl)) {
             if (!sl.equals("0")) {
                 soLuongMoi = Integer.parseInt(sl);
-                this.updateNguyenLieu(maSP, -Integer.parseInt(model.getValueAt(this.checkCountTable(maSP), 3)+""));
+                this.updateNguyenLieu(maSP, -Integer.parseInt(model.getValueAt(this.checkCountTable(maSP), 3) + ""));
                 int maxCount = this.checkMaxCount(maSP);
                 if (maxCount < soLuongMoi) {
                     MsgBox.alert(this, "Nguyên liệu tối đa cho: " + maxCount + " sản Phẩm");
@@ -1427,16 +1427,16 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
         this.resetBill();
         this.updatePrice();
     }
-    
-    public void hoanTraNguyenLieu(int heSo){
+
+    public void hoanTraNguyenLieu(int heSo) {
         DefaultTableModel model = (DefaultTableModel) tblOder.getModel();
-        if(model.getRowCount()>0){
-            for(int i=0 ; i<tblOder.getRowCount() ; i++){
-                String masp = model.getValueAt(i, 0)+"";
-                int soLuong = Integer.parseInt(model.getValueAt(i, 3)+"");
-                this.updateNguyenLieu(masp, heSo*soLuong);
+        if (model.getRowCount() > 0) {
+            for (int i = 0; i < tblOder.getRowCount(); i++) {
+                String masp = model.getValueAt(i, 0) + "";
+                int soLuong = Integer.parseInt(model.getValueAt(i, 3) + "");
+                this.updateNguyenLieu(masp, heSo * soLuong);
             }
-        }   
+        }
     }
 
     @Override
@@ -1445,36 +1445,36 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
             DefaultComboBoxModel model = (DefaultComboBoxModel) cboKhachHang.getModel();
             model.removeAllElements();
             KhachHang kh = khdao.selectBySDT(txtSDT.getText());
-            if(kh != null){
-                 model.addElement(kh.toString());
-            }else{
-                if(MsgBox.confirm(this, "Khách hàng mới\nBạn có muốn thêm mới khách hàng ?")){
+            if (kh != null) {
+                model.addElement(kh.toString());
+            } else {
+                if (MsgBox.confirm(this, "Khách hàng mới\nBạn có muốn thêm mới khách hàng ?")) {
                     ProductController.masp = null;
                     new SaveOderCustomerJDialog(this, true, txtSDT.getText()).setVisible(true);
-                    if(SaveOderCustomerJDialog.makh != null)
-                    this.fillCustomerByID(SaveOderCustomerJDialog.makh);
+                    if (SaveOderCustomerJDialog.makh != null) {
+                        this.fillCustomerByID(SaveOderCustomerJDialog.makh);
+                    }
                 }
             }
         } catch (Exception e) {
         }
     }
-    
+
     @Override
-    public void updateStatus(String mahd){
-        if(mahd != null){
+    public void updateStatus(String mahd) {
+        if (mahd != null) {
             btnTimKiemKH.setEnabled(false);
             btnTaoKH.setEnabled(false);
         }
     }
-    
-    
+
     @Override
-    public void setForm(String mahd){
-        if(mahd != null){
+    public void setForm(String mahd) {
+        if (mahd != null) {
             DefaultTableModel model = (DefaultTableModel) tblOder.getModel();
-            List <HoaDonChiTiet> list = hdctdao.selectByID(mahd);
+            List<HoaDonChiTiet> list = hdctdao.selectByID(mahd);
             Double discount = null;
-            for(HoaDonChiTiet hdct: list){
+            for (HoaDonChiTiet hdct : list) {
                 discount = hdct.getKhuyenMai();
                 SanPham sp = spdao.getItemsByMaSP(hdct.getMaSP());
                 Object[] row = {
@@ -1491,35 +1491,35 @@ public class CreateOrdersJFrame extends SubController implements BanHangControll
             KhachHang kh = khdao.selectByMaKH(hd.getMaKH());
             DefaultComboBoxModel modelcbo = (DefaultComboBoxModel) cboKhachHang.getModel();
             modelcbo.removeAllElements();
-            if(kh != null){
+            if (kh != null) {
                 modelcbo.addElement(kh.toString());
-                txtSDT.setText(kh.getSDT()+"");
+                txtSDT.setText(kh.getSDT() + "");
             }
             cboTrangThai.setSelectedItem(hd.getTrangThai());
             this.resetBill();
-            txtDiscount.setText(discount+"");
-            txtGiamGia.setText(discount*Double.parseDouble(txtPrice.getText())+"");
+            txtDiscount.setText(discount + "");
+            txtGiamGia.setText(discount * Double.parseDouble(txtPrice.getText()) + "");
         }
     }
+
     @Override
-    public void updateBills(String mahd){
+    public void updateBills(String mahd) {
         HoaDon hd = new HoaDon();
         HoaDon hd1 = hddao.selectByMaHD(mahd);
         hd.setMaHD(mahd);
-        if(hd1 != null){
+        if (hd1 != null) {
             hd.setMaKH(hd1.getMaKH());
         }
         hd.setMaNV(Auth.getUser().getMaNV());
         hd.getNgayMua();
         hd.setTongTien(Double.parseDouble(txtPrice.getText()));
         hd.setGiamGia(Double.parseDouble(txtGiamGia.getText()));
-        hd.setTriGia(Double.parseDouble(txtPrice.getText())-Double.parseDouble(txtGiamGia.getText()));
-        hd.setTrangThai(cboTrangThai.getSelectedItem()+"");
+        hd.setTriGia(Double.parseDouble(txtPrice.getText()) - Double.parseDouble(txtGiamGia.getText()));
+        hd.setTrangThai(cboTrangThai.getSelectedItem() + "");
         hddao.update(hd);
         hdctdao.delete(mahd);
         this.insertCTHD(mahd);
         this.clearAll();
     }
 
- 
 }
